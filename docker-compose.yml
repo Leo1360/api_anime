@@ -1,0 +1,16 @@
+services:
+  db:
+    image: mysql
+    container_name: db_anime_api
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: animedb
+      MYSQL_USER: backendUser
+      MYSQL_PASSWORD: epkSfGrbEUBd
+    ports:
+      - "3306:3306"
+    volumes:
+      - anime_api:/var/lib/mysql
+
+volumes:
+  anime_api:
