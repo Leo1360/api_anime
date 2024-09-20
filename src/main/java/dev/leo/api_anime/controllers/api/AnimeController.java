@@ -7,10 +7,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import dev.leo.api_anime.domain.anime.Anime;
 import dev.leo.api_anime.dto.AnimeDto;
+import dev.leo.api_anime.dto.AnimePageResponseDTO;
 import dev.leo.api_anime.service.AnimeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -22,6 +24,15 @@ import lombok.extern.log4j.Log4j2;
 public class AnimeController {
     private final AnimeService animeService;
     
+    @GetMapping(path = "/")
+    public ResponseEntity<AnimePageResponseDTO> findAll(
+            @RequestParam(name = "pageNum", defaultValue = "0", required = false) int pageNum,
+            @RequestParam(name = "pageSize", defaultValue = "10", required = false) int pageSize
+            ){
+        return new ResponseEntity<>(animeService.findAll(pageNum, pageSize),HttpStatus.OK);
+    }
+
+
     @GetMapping(path = "/{id}")
     public ResponseEntity<Anime> getAnimeById(@PathVariable Long id){
         Anime anime = animeService.findById(id);
