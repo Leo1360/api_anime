@@ -18,9 +18,9 @@ public class AnimeService {
 
     }
 
-    public void save(AnimeDto animeDto){
+    public Anime save(AnimeDto animeDto){
         Anime anime = animeDto.toAnime();
-        animeRepo.save(anime);
+        return animeRepo.save(anime);
     }
 
 }
