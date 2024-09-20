@@ -11,9 +11,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import dev.leo.api_anime.domain.anime.Anime;
 import dev.leo.api_anime.dto.AnimeDto;
+import dev.leo.api_anime.dto.AnimePageResponseDTO;
 import dev.leo.api_anime.repository.AnimeRepository;
 
 @ExtendWith(MockitoExtension.class)
@@ -36,6 +39,18 @@ public class AnimeServiceTest {
       
         Assertions.assertThat(newAnime).isNotNull();
         
+    }
+
+    @Test
+    public void AnimeServiceTest_findAll_returnsAnimePageResponseDTO(){
+        Page<Anime> page = Mockito.mock(Page.class);
+
+        when(animeRepository.findAll(Mockito.any(Pageable.class))).thenReturn(page);
+
+        AnimePageResponseDTO newAnimePageDTO =  animeService.findAll(0, 10);
+
+        Assertions.assertThat(newAnimePageDTO).isNotNull();
+
     }
 
 }
