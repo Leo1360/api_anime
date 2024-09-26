@@ -45,4 +45,18 @@ public class AnimeService {
             );
     }
 
+    public AnimePageResponseDTO filterByCategory(int pageNum, int pageSize, String categoria){
+        Pageable pageable = PageRequest.of(pageNum, pageSize);
+        Page<Anime> animePage = animeRepo.findByCategoriaNome(categoria,pageable);
+        List<AnimeDto> animeList = animePage.getContent().stream().map(AnimeDto::toDto).collect(Collectors.toList());
+        
+        return new AnimePageResponseDTO(
+            animeList,
+            animePage.getNumber(),
+            animePage.getSize(),
+            animePage.getTotalPages(),
+            animePage.getTotalElements(),
+            animePage.isLast()
+            );
+    }
 }
