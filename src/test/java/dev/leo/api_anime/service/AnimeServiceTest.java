@@ -29,7 +29,7 @@ public class AnimeServiceTest {
     private AnimeService animeService;
 
     @Test
-    public void AnimeServiceTest_save_returnsAnime(){
+    public void AnimeService_save_returnsAnime(){
         AnimeDto dto = new AnimeDto("Teste anime","Teste anime","Anime para teste", LocalDate.now());
         Anime anime = dto.toAnime();
 
@@ -42,7 +42,7 @@ public class AnimeServiceTest {
     }
 
     @Test
-    public void AnimeServiceTest_findAll_returnsAnimePageResponseDTO(){
+    public void AnimeService_findAll_returnsAnimePageResponseDTO(){
         Page<Anime> page = Mockito.mock(Page.class);
 
         when(animeRepository.findAll(Mockito.any(Pageable.class))).thenReturn(page);
@@ -50,6 +50,17 @@ public class AnimeServiceTest {
         AnimePageResponseDTO newAnimePageDTO =  animeService.findAll(0, 10);
 
         Assertions.assertThat(newAnimePageDTO).isNotNull();
+
+    }
+
+    @Test
+    public void AnimeService_filterByCategoria_returnsAnimePageResponseDTO(){
+        Page<Anime> page = Mockito.mock(Page.class);
+        when(animeRepository.findByCategoriaNome(Mockito.any(String.class), Mockito.any(Pageable.class))).thenReturn(page);
+        
+        AnimePageResponseDTO newAnimePageResponseDTO = animeService.filterByCategory(0, 10, "Isekai");
+        
+        Assertions.assertThat(newAnimePageResponseDTO).isNotNull();
 
     }
 
