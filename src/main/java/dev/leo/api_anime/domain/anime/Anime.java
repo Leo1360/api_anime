@@ -3,6 +3,7 @@ package dev.leo.api_anime.domain.anime;
 import java.time.LocalDate;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -45,7 +46,8 @@ public class Anime {
     @JoinTable(joinColumns = @JoinColumn(name = "tmp_id"), inverseJoinColumns = @JoinColumn(name = "ani_id"))
     private List<Temporada> temporadas;
     
-    @OneToMany
+    @OneToMany(cascade = CascadeType.PERSIST)
     @JoinTable(joinColumns = @JoinColumn(name = "cat_id"), inverseJoinColumns = @JoinColumn(name = "ani_id"))
     private List<Categoria> categoria;
+    
 }
