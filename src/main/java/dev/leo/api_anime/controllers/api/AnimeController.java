@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import dev.leo.api_anime.domain.anime.Anime;
 import dev.leo.api_anime.dto.AnimeDto;
 import dev.leo.api_anime.dto.AnimePageResponseDTO;
+import dev.leo.api_anime.dto.ResponseWithIdDTO;
 import dev.leo.api_anime.service.AnimeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -42,9 +43,10 @@ public class AnimeController {
     }
 
     @PostMapping(path = "/anime")
-    public ResponseEntity<Void> saveAnime(@RequestBody AnimeDto animeDto){
-        animeService.save(animeDto);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    public ResponseEntity<ResponseWithIdDTO> saveAnime(@RequestBody AnimeDto animeDto){
+        Anime anime = animeService.save(animeDto);
+        ResponseWithIdDTO response = new ResponseWithIdDTO(anime.getId());
+        return new ResponseEntity<ResponseWithIdDTO>(response,HttpStatus.CREATED);
     }
 
     @PutMapping(path = "/anime/{id}")
