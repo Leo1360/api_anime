@@ -2,6 +2,7 @@ package dev.leo.api_anime.controllers.api;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -49,6 +50,12 @@ public class AnimeController {
     @PutMapping(path = "/anime/{id}")
     public ResponseEntity<Void> updateAnime(@RequestBody AnimeDto dto,@PathVariable Long id){
         animeService.update(dto, id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping(path = "/anime/{id}")
+    public ResponseEntity<Void> deleteAnime(@PathVariable Long id){
+        animeService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
