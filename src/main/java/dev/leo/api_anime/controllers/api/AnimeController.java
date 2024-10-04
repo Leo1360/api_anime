@@ -42,6 +42,16 @@ public class AnimeController {
         return new ResponseEntity<Anime>(anime,HttpStatus.ACCEPTED);
     }
 
+    @GetMapping(path = "/categoria/{cat}")
+    public ResponseEntity<AnimePageResponseDTO> findAnimesByCategoria(
+            @PathVariable String cat,
+            @RequestParam(name = "pageNum", defaultValue = "0", required = false) int pageNum,
+            @RequestParam(name = "pageSize", defaultValue = "10", required = false) int pageSize
+            ){
+        AnimePageResponseDTO response = animeService.filterByCategory(pageNum, pageSize, cat);
+        return new ResponseEntity<AnimePageResponseDTO>(response,HttpStatus.OK);
+    }
+
     @PostMapping(path = "/anime")
     public ResponseEntity<ResponseWithIdDTO> saveAnime(@RequestBody AnimeDto animeDto){
         Anime anime = animeService.save(animeDto);
@@ -60,5 +70,7 @@ public class AnimeController {
         animeService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+
 
 }
