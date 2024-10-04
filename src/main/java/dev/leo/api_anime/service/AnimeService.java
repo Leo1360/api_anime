@@ -59,4 +59,22 @@ public class AnimeService {
             animePage.isLast()
             );
     }
+
+    public Anime update(AnimeDto dto, Long id){
+        if(! animeRepo.existsById(id)){
+            throw new BadRequestException("Anime não localizado");
+        }
+        Anime anime = dto.toAnime();
+        anime.setId(id);
+        return animeRepo.save(anime);
+    }
+
+
+    public void delete(Long id){
+        if(! animeRepo.existsById(id)){
+            throw new BadRequestException("Anime não localizado");
+        }
+        animeRepo.deleteById(id);
+    }
+
 }
