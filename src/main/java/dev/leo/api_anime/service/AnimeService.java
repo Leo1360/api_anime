@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import dev.leo.api_anime.domain.anime.Anime;
 import dev.leo.api_anime.dto.PageDTO;
 import dev.leo.api_anime.dto.anime.AnimeDto;
+import dev.leo.api_anime.dto.anime.AnimeResponseDto;
 import dev.leo.api_anime.exceptions.BadRequestException;
 import dev.leo.api_anime.repository.AnimeRepository;
 import lombok.RequiredArgsConstructor;
@@ -30,12 +31,12 @@ public class AnimeService {
         return animeRepo.save(anime);
     }
 
-    public PageDTO<AnimeDto> findAll(int pageNum, int pageSize){
+    public PageDTO<AnimeResponseDto> findAll(int pageNum, int pageSize){
         Pageable pageable = PageRequest.of(pageNum, pageSize);
         Page<Anime> animePage = animeRepo.findAll(pageable);
-        List<AnimeDto> animeList = animePage.getContent().stream().map(AnimeDto::toDto).collect(Collectors.toList());
+        List<AnimeResponseDto> animeList = animePage.getContent().stream().map(AnimeResponseDto::toDto).collect(Collectors.toList());
 
-        return new PageDTO<AnimeDto>(
+        return new PageDTO<AnimeResponseDto>(
             animeList,
             animePage.getNumber(),
             animePage.getSize(),
@@ -45,12 +46,12 @@ public class AnimeService {
             );
     }
 
-    public PageDTO<AnimeDto> filterByCategory(int pageNum, int pageSize, String categoria){
+    public PageDTO<AnimeResponseDto> filterByCategory(int pageNum, int pageSize, String categoria){
         Pageable pageable = PageRequest.of(pageNum, pageSize);
         Page<Anime> animePage = animeRepo.findByCategoriaNome(categoria,pageable);
-        List<AnimeDto> animeList = animePage.getContent().stream().map(AnimeDto::toDto).collect(Collectors.toList());
+        List<AnimeResponseDto> animeList = animePage.getContent().stream().map(AnimeResponseDto::toDto).collect(Collectors.toList());
         
-        return new PageDTO<AnimeDto>(
+        return new PageDTO<AnimeResponseDto>(
             animeList,
             animePage.getNumber(),
             animePage.getSize(),
