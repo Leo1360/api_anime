@@ -16,7 +16,7 @@ import org.springframework.data.domain.Pageable;
 
 import dev.leo.api_anime.domain.anime.Anime;
 import dev.leo.api_anime.dto.AnimeDto;
-import dev.leo.api_anime.dto.AnimePageResponseDTO;
+import dev.leo.api_anime.dto.PageDTO;
 import dev.leo.api_anime.repository.AnimeRepository;
 
 @ExtendWith(MockitoExtension.class)
@@ -42,25 +42,25 @@ public class AnimeServiceTest {
     }
 
     @Test
-    public void AnimeService_findAll_returnsAnimePageResponseDTO(){
+    public void AnimeService_findAll_returnsPageDTOAnimeDto(){
         Page<Anime> page = Mockito.mock(Page.class);
 
         when(animeRepository.findAll(Mockito.any(Pageable.class))).thenReturn(page);
 
-        AnimePageResponseDTO newAnimePageDTO =  animeService.findAll(0, 10);
+        PageDTO<AnimeDto> pageDTO =  animeService.findAll(0, 10);
 
-        Assertions.assertThat(newAnimePageDTO).isNotNull();
+        Assertions.assertThat(pageDTO).isNotNull();
 
     }
 
     @Test
-    public void AnimeService_filterByCategoria_returnsAnimePageResponseDTO(){
+    public void AnimeService_filterByCategoria_returnsPageDTOAnimeDto(){
         Page<Anime> page = Mockito.mock(Page.class);
         when(animeRepository.findByCategoriaNome(Mockito.any(String.class), Mockito.any(Pageable.class))).thenReturn(page);
         
-        AnimePageResponseDTO newAnimePageResponseDTO = animeService.filterByCategory(0, 10, "Isekai");
+        PageDTO<AnimeDto> pageDTO = animeService.filterByCategory(0, 10, "Isekai");
         
-        Assertions.assertThat(newAnimePageResponseDTO).isNotNull();
+        Assertions.assertThat(pageDTO).isNotNull();
 
     }
 
