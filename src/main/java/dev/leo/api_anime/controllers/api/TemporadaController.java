@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import dev.leo.api_anime.domain.anime.Temporada;
 import dev.leo.api_anime.dto.PageDTO;
 import dev.leo.api_anime.dto.ResponseWithIdDTO;
-import dev.leo.api_anime.dto.TemporadaDto;
+import dev.leo.api_anime.dto.temporada.TemporadaDto;
 import dev.leo.api_anime.service.TemporadaService;
 import lombok.RequiredArgsConstructor;
 

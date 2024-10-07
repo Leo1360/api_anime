@@ -15,8 +15,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import dev.leo.api_anime.domain.anime.Categoria;
-import dev.leo.api_anime.dto.CategoriaDTO;
 import dev.leo.api_anime.dto.PageDTO;
+import dev.leo.api_anime.dto.categoria.CategoriaDTO;
 import dev.leo.api_anime.repository.CategoriaRepository;
 
 @ExtendWith(MockitoExtension.class)

@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import dev.leo.api_anime.domain.anime.Anime;
-import dev.leo.api_anime.dto.AnimeDto;
 import dev.leo.api_anime.dto.PageDTO;
 import dev.leo.api_anime.dto.ResponseWithIdDTO;
+import dev.leo.api_anime.dto.anime.AnimeDto;
 import dev.leo.api_anime.service.AnimeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;

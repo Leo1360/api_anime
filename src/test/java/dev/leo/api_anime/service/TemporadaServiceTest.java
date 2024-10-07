@@ -16,7 +16,7 @@ import org.springframework.data.domain.Pageable;
 
 import dev.leo.api_anime.domain.anime.Temporada;
 import dev.leo.api_anime.dto.PageDTO;
-import dev.leo.api_anime.dto.TemporadaDto;
+import dev.leo.api_anime.dto.temporada.TemporadaDto;
 import dev.leo.api_anime.repository.TemporadaRepository;
 
 @ExtendWith(MockitoExtension.class)

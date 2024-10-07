@@ -9,8 +9,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import dev.leo.api_anime.domain.anime.Categoria;
-import dev.leo.api_anime.dto.CategoriaDTO;
 import dev.leo.api_anime.dto.PageDTO;
+import dev.leo.api_anime.dto.categoria.CategoriaDTO;
 import dev.leo.api_anime.exceptions.BadRequestException;
 import dev.leo.api_anime.repository.CategoriaRepository;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package dev.leo.api_anime.dto;
+package dev.leo.api_anime.dto.episodio;
 
 import dev.leo.api_anime.domain.anime.Episodio;
 

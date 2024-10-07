@@ -1,4 +1,4 @@
-package dev.leo.api_anime.dto;
+package dev.leo.api_anime.dto.temporada;
 
 import java.time.LocalDate;
 

@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import dev.leo.api_anime.dto.CategoriaDTO;
 import dev.leo.api_anime.dto.PageDTO;
 import dev.leo.api_anime.dto.ResponseWithIdDTO;
+import dev.leo.api_anime.dto.categoria.CategoriaDTO;
 import dev.leo.api_anime.service.CategoriaService;
 import lombok.RequiredArgsConstructor;
 
