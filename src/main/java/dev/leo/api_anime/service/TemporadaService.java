@@ -8,6 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import dev.leo.api_anime.domain.anime.Anime;
 import dev.leo.api_anime.domain.anime.Temporada;
 import dev.leo.api_anime.dto.PageDTO;
 import dev.leo.api_anime.dto.TemporadaDto;
@@ -19,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class TemporadaService {
     private final TemporadaRepository temporadaRepository;
+    private final AnimeService animeService;
 
     public Temporada save(TemporadaDto dto){
         Temporada temporada = dto.toTemporada();
@@ -59,6 +61,11 @@ public class TemporadaService {
             throw new BadRequestException("Temporada não localizada");
         }
         temporadaRepository.deleteById(id);
+    }
+
+    public List<TemporadaDto> findTemporadasByAnimeId(Long id){
+        Anime anime = animeService.findById(id);
+        return anime.getTemporadas().stream().map(TemporadaDto::toDto).collect(Collectors.toList());
     }
 
 }
