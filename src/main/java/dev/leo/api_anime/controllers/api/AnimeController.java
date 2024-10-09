@@ -13,9 +13,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import dev.leo.api_anime.domain.anime.Anime;
-import dev.leo.api_anime.dto.AnimeDto;
-import dev.leo.api_anime.dto.AnimePageResponseDTO;
+import dev.leo.api_anime.dto.PageDTO;
 import dev.leo.api_anime.dto.ResponseWithIdDTO;
+import dev.leo.api_anime.dto.anime.AnimeDto;
+import dev.leo.api_anime.dto.anime.AnimeResponseDto;
 import dev.leo.api_anime.service.AnimeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -28,7 +29,7 @@ public class AnimeController {
     private final AnimeService animeService;
     
     @GetMapping(path = "/")
-    public ResponseEntity<AnimePageResponseDTO> findAll(
+    public ResponseEntity<PageDTO<AnimeResponseDto>> findAll(
             @RequestParam(name = "pageNum", defaultValue = "0", required = false) int pageNum,
             @RequestParam(name = "pageSize", defaultValue = "10", required = false) int pageSize
             ){
@@ -43,13 +44,13 @@ public class AnimeController {
     }
 
     @GetMapping(path = "/categoria/{cat}")
-    public ResponseEntity<AnimePageResponseDTO> findAnimesByCategoria(
+    public ResponseEntity<PageDTO<AnimeResponseDto>> findAnimesByCategoria(
             @PathVariable String cat,
             @RequestParam(name = "pageNum", defaultValue = "0", required = false) int pageNum,
             @RequestParam(name = "pageSize", defaultValue = "10", required = false) int pageSize
             ){
-        AnimePageResponseDTO response = animeService.filterByCategory(pageNum, pageSize, cat);
-        return new ResponseEntity<AnimePageResponseDTO>(response,HttpStatus.OK);
+                PageDTO<AnimeResponseDto> response = animeService.filterByCategory(pageNum, pageSize, cat);
+        return new ResponseEntity<PageDTO<AnimeResponseDto>>(response,HttpStatus.OK);
     }
 
     @PostMapping(path = "/anime")

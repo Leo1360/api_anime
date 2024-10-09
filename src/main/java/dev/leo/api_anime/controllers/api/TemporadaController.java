@@ -15,7 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import dev.leo.api_anime.domain.anime.Temporada;
 import dev.leo.api_anime.dto.PageDTO;
 import dev.leo.api_anime.dto.ResponseWithIdDTO;
-import dev.leo.api_anime.dto.TemporadaDto;
+import dev.leo.api_anime.dto.temporada.TemporadaDto;
+import dev.leo.api_anime.dto.temporada.TemporadaResponseDto;
 import dev.leo.api_anime.service.TemporadaService;
 import lombok.RequiredArgsConstructor;
 
@@ -26,19 +27,19 @@ public class TemporadaController {
     private final TemporadaService service;
 
     @GetMapping(path = "/")
-    public ResponseEntity<PageDTO<TemporadaDto>> findAll(
+    public ResponseEntity<PageDTO<TemporadaResponseDto>> findAll(
             @RequestParam(name = "pageNum", defaultValue = "0", required = false) int pageNum,
             @RequestParam(name = "pageSize", defaultValue = "10", required = false) int pageSize
             ){
-        PageDTO<TemporadaDto> page = service.findAll(pageNum, pageSize);
-        return new ResponseEntity<PageDTO<TemporadaDto>>(page, HttpStatus.OK);
+        PageDTO<TemporadaResponseDto> page = service.findAll(pageNum, pageSize);
+        return new ResponseEntity<PageDTO<TemporadaResponseDto>>(page, HttpStatus.OK);
     }
 
     @GetMapping(path = "/temporada/{id}")
-    public ResponseEntity<TemporadaDto> findById(@PathVariable Long id){
+    public ResponseEntity<TemporadaResponseDto> findById(@PathVariable Long id){
         Temporada temp = service.findById(id);
-        TemporadaDto result = TemporadaDto.toDto(temp);
-        return new ResponseEntity<TemporadaDto>(result, HttpStatus.OK);
+        TemporadaResponseDto result = TemporadaResponseDto.toDto(temp);
+        return new ResponseEntity<TemporadaResponseDto>(result, HttpStatus.OK);
     }
 
     @PostMapping(path = "/temporada")

@@ -1,4 +1,4 @@
-package dev.leo.api_anime.dto;
+package dev.leo.api_anime.dto.categoria;
 
 import dev.leo.api_anime.domain.anime.Categoria;
 
