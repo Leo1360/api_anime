@@ -17,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import dev.leo.api_anime.domain.anime.Anime;
 import dev.leo.api_anime.dto.PageDTO;
 import dev.leo.api_anime.dto.anime.AnimeDto;
+import dev.leo.api_anime.dto.anime.AnimeResponseDto;
 import dev.leo.api_anime.repository.AnimeRepository;
 
 @ExtendWith(MockitoExtension.class)
@@ -47,7 +48,7 @@ public class AnimeServiceTest {
 
         when(animeRepository.findAll(Mockito.any(Pageable.class))).thenReturn(page);
 
-        PageDTO<AnimeDto> pageDTO =  animeService.findAll(0, 10);
+        PageDTO<AnimeResponseDto> pageDTO =  animeService.findAll(0, 10);
 
         Assertions.assertThat(pageDTO).isNotNull();
 
@@ -58,7 +59,7 @@ public class AnimeServiceTest {
         Page<Anime> page = Mockito.mock(Page.class);
         when(animeRepository.findByCategoriaNome(Mockito.any(String.class), Mockito.any(Pageable.class))).thenReturn(page);
         
-        PageDTO<AnimeDto> pageDTO = animeService.filterByCategory(0, 10, "Isekai");
+        PageDTO<AnimeResponseDto> pageDTO = animeService.filterByCategory(0, 10, "Isekai");
         
         Assertions.assertThat(pageDTO).isNotNull();
 
