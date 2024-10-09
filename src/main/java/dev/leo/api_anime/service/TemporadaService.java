@@ -12,6 +12,7 @@ import dev.leo.api_anime.domain.anime.Anime;
 import dev.leo.api_anime.domain.anime.Temporada;
 import dev.leo.api_anime.dto.PageDTO;
 import dev.leo.api_anime.dto.temporada.TemporadaDto;
+import dev.leo.api_anime.dto.temporada.TemporadaResponseDto;
 import dev.leo.api_anime.exceptions.BadRequestException;
 import dev.leo.api_anime.repository.TemporadaRepository;
 import lombok.RequiredArgsConstructor;
@@ -31,11 +32,11 @@ public class TemporadaService {
         return temporadaRepository.findById(id).orElseThrow(() -> new BadRequestException("Temporada não localizada"));
     }
 
-    public PageDTO<TemporadaDto> findAll(int pageNum, int pageSize){
+    public PageDTO<TemporadaResponseDto> findAll(int pageNum, int pageSize){
         Pageable pageable = PageRequest.of(pageNum, pageSize);
         Page<Temporada> page = temporadaRepository.findAll(pageable);
-        List<TemporadaDto> tempList = page.getContent().stream().map(TemporadaDto::toDto).collect(Collectors.toList());
-        return new PageDTO<TemporadaDto>(
+        List<TemporadaResponseDto> tempList = page.getContent().stream().map(TemporadaResponseDto::toDto).collect(Collectors.toList());
+        return new PageDTO<TemporadaResponseDto>(
             tempList,
             page.getSize(),
             page.getNumber(),
@@ -63,9 +64,9 @@ public class TemporadaService {
         temporadaRepository.deleteById(id);
     }
 
-    public List<TemporadaDto> findTemporadasByAnimeId(Long id){
+    public List<TemporadaResponseDto> findTemporadasByAnimeId(Long id){
         Anime anime = animeService.findById(id);
-        return anime.getTemporadas().stream().map(TemporadaDto::toDto).collect(Collectors.toList());
+        return anime.getTemporadas().stream().map(TemporadaResponseDto::toDto).collect(Collectors.toList());
     }
 
 }
