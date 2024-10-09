@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import dev.leo.api_anime.dto.PageDTO;
 import dev.leo.api_anime.dto.ResponseWithIdDTO;
 import dev.leo.api_anime.dto.categoria.CategoriaDTO;
+import dev.leo.api_anime.dto.categoria.CategoriaResponseDTO;
 import dev.leo.api_anime.service.CategoriaService;
 import lombok.RequiredArgsConstructor;
 
@@ -25,18 +26,18 @@ public class CategoriaController {
     private final CategoriaService service;
 
     @GetMapping(path = "/")
-    public ResponseEntity<PageDTO<CategoriaDTO>> findAll(
+    public ResponseEntity<PageDTO<CategoriaResponseDTO>> findAll(
             @RequestParam(name = "pageNum", defaultValue = "0", required = false) int pageNum,
             @RequestParam(name = "pageSize", defaultValue = "10", required = false) int pageSize
             ){
-        PageDTO<CategoriaDTO> page = service.findAll(pageNum, pageSize);
-        return new ResponseEntity<PageDTO<CategoriaDTO>>(page,HttpStatus.OK);
+        PageDTO<CategoriaResponseDTO> page = service.findAll(pageNum, pageSize);
+        return new ResponseEntity<PageDTO<CategoriaResponseDTO>>(page,HttpStatus.OK);
     }
 
     @GetMapping(path = "/categoria/{id}")
-    public ResponseEntity<CategoriaDTO> findById(@PathVariable Long id){
-        CategoriaDTO cat = CategoriaDTO.toDto(service.findById(id));
-        return new ResponseEntity<CategoriaDTO>(cat, HttpStatus.OK);
+    public ResponseEntity<CategoriaResponseDTO> findById(@PathVariable Long id){
+        CategoriaResponseDTO cat = CategoriaResponseDTO.toDto(service.findById(id));
+        return new ResponseEntity<CategoriaResponseDTO>(cat, HttpStatus.OK);
     }
 
     @PostMapping(path = "/categoria")

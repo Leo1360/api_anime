@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import dev.leo.api_anime.domain.anime.Categoria;
 import dev.leo.api_anime.dto.PageDTO;
 import dev.leo.api_anime.dto.categoria.CategoriaDTO;
+import dev.leo.api_anime.dto.categoria.CategoriaResponseDTO;
 import dev.leo.api_anime.exceptions.BadRequestException;
 import dev.leo.api_anime.repository.CategoriaRepository;
 import lombok.RequiredArgsConstructor;
@@ -30,11 +31,11 @@ public class CategoriaService {
         return categoriaRepository.findById(id).orElseThrow(() -> new BadRequestException("Categoria não encontrada"));
     }
 
-    public PageDTO<CategoriaDTO> findAll(int pageNum, int pageSize){
+    public PageDTO<CategoriaResponseDTO> findAll(int pageNum, int pageSize){
         Pageable pageable = PageRequest.of(pageNum, pageSize);
         Page<Categoria> page = categoriaRepository.findAll(pageable);
-        List<CategoriaDTO> catList = page.getContent().stream().map(CategoriaDTO::toDto).collect(Collectors.toList());
-        return new PageDTO<CategoriaDTO>(
+        List<CategoriaResponseDTO> catList = page.getContent().stream().map(CategoriaResponseDTO::toDto).collect(Collectors.toList());
+        return new PageDTO<CategoriaResponseDTO>(
             catList,
             page.getNumber(),
             page.getSize(),
