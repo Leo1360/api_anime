@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import dev.leo.api_anime.domain.anime.Episodio;
 import dev.leo.api_anime.dto.PageDTO;
 import dev.leo.api_anime.dto.episodio.EpisodioDto;
+import dev.leo.api_anime.dto.episodio.EpisodioResponseDto;
 import dev.leo.api_anime.exceptions.BadRequestException;
 import dev.leo.api_anime.repository.EpisodioRepository;
 import lombok.RequiredArgsConstructor;
@@ -30,11 +31,11 @@ public class EpisodioService {
 
     }
 
-    public PageDTO<EpisodioDto> findAll(int pageNum, int pageSize){
+    public PageDTO<EpisodioResponseDto> findAll(int pageNum, int pageSize){
         Pageable pageable = PageRequest.of(pageNum,pageSize);
         Page<Episodio> page = episodioRepository.findAll(pageable);
-        List<EpisodioDto> dtoList = page.getContent().stream().map(EpisodioDto::toDto).collect(Collectors.toList());
-        return new PageDTO<EpisodioDto>(
+        List<EpisodioResponseDto> dtoList = page.getContent().stream().map(EpisodioResponseDto::toDto).collect(Collectors.toList());
+        return new PageDTO<EpisodioResponseDto>(
             dtoList,
             page.getNumber(),
             page.getSize(),

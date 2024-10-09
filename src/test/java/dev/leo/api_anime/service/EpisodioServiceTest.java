@@ -16,7 +16,7 @@ import org.springframework.data.domain.Pageable;
 
 import dev.leo.api_anime.domain.anime.Episodio;
 import dev.leo.api_anime.dto.PageDTO;
-import dev.leo.api_anime.dto.episodio.EpisodioDto;
+import dev.leo.api_anime.dto.episodio.EpisodioResponseDto;
 import dev.leo.api_anime.repository.EpisodioRepository;
 
 @ExtendWith(MockitoExtension.class)
@@ -32,7 +32,7 @@ public class EpisodioServiceTest {
         Page<Episodio> page = Mockito.mock(Page.class);
         when(episodioRepository.findAll(Mockito.any(Pageable.class))).thenReturn(page);
 
-        PageDTO<EpisodioDto> result = episodioService.findAll(0, 10);
+        PageDTO<EpisodioResponseDto> result = episodioService.findAll(0, 10);
 
         Assertions.assertThat(result).isNotNull();
         Assertions.assertThat(result.itens()).isNotNull();
