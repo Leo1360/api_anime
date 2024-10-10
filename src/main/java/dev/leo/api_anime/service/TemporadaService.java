@@ -32,13 +32,14 @@ public class TemporadaService {
     @Transactional
     public Temporada save(TemporadaDto dto,Long id){
         Temporada temporada = dto.toTemporada();
+        temporada = temporadaRepository.save(temporada);
         
         Anime anime = entityManager.getReference(Anime.class,id);
         anime.getTemporadas().add(temporada);
         entityManager.persist(anime);
 
 
-        return temporadaRepository.save(temporada);
+        return temporada;
     }
 
     public Temporada findById(Long id){

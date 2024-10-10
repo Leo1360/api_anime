@@ -1,5 +1,7 @@
 package dev.leo.api_anime.controllers.api;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -42,10 +44,16 @@ public class EpisodioController {
         return new ResponseEntity<PageDTO<EpisodioResponseDto>>(result, HttpStatus.OK);
     }
     
+    @GetMapping(path = "/temporada/{id}")
+    public ResponseEntity<List<EpisodioResponseDto>> listByTemporada(@PathVariable Long id){
+        List<EpisodioResponseDto> result = service.listEpisodioByTemporada(id);
+        return new ResponseEntity<List<EpisodioResponseDto>>(result,HttpStatus.OK);
+
+    }
     
-    @PostMapping(path = "/episodio")
-    public ResponseEntity<ResponseWithIdDTO> save(@RequestBody EpisodioDto dto){
-        Episodio ep = service.save(dto);
+    @PostMapping(path = "/episodio/temporada/{id}")
+    public ResponseEntity<ResponseWithIdDTO> save(@RequestBody EpisodioDto dto, @PathVariable Long id){
+        Episodio ep = service.save(dto,id);
         ResponseWithIdDTO result = new ResponseWithIdDTO(ep.getId());
         return new ResponseEntity<ResponseWithIdDTO>(result,HttpStatus.CREATED);
     }
