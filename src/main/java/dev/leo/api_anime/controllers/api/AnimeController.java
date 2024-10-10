@@ -37,10 +37,11 @@ public class AnimeController {
     }
 
 
-    @GetMapping(path = "/{id}")
-    public ResponseEntity<Anime> getAnimeById(@PathVariable Long id){
+    @GetMapping(path = "/anime/{id}")
+    public ResponseEntity<AnimeResponseDto> getAnimeById(@PathVariable Long id){
         Anime anime = animeService.findById(id);
-        return new ResponseEntity<Anime>(anime,HttpStatus.ACCEPTED);
+        AnimeResponseDto result = AnimeResponseDto.toDto(anime);
+        return new ResponseEntity<AnimeResponseDto>(result,HttpStatus.ACCEPTED);
     }
 
     @GetMapping(path = "/categoria/{cat}")
