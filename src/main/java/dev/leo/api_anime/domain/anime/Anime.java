@@ -43,11 +43,11 @@ public class Anime {
     private LocalDate dataEstreia;
 
     @OneToMany
-    @JoinTable(joinColumns = @JoinColumn(name = "tmp_id"), inverseJoinColumns = @JoinColumn(name = "ani_id"))
+    @JoinTable(joinColumns = @JoinColumn(name = "ani_id"), inverseJoinColumns = @JoinColumn(name = "tmp_id"))
     private List<Temporada> temporadas;
     
     @OneToMany(cascade = CascadeType.PERSIST)
-    @JoinTable(joinColumns = @JoinColumn(name = "cat_id"), inverseJoinColumns = @JoinColumn(name = "ani_id"))
+    @JoinTable(joinColumns = @JoinColumn(name = "ani_id"), inverseJoinColumns = @JoinColumn(name = "cat_id"))
     private List<Categoria> categoria;
     
 }

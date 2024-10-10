@@ -18,6 +18,9 @@ public class Episodio {
     @Column(name = "eps_id")
     private Long id;
 
+    @Column(name = "eps_num")
+    private Integer numero;
+
     @Column(name = "eps_descricao", length = 1000)
     private String descricao;
 

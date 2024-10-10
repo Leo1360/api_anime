@@ -25,6 +25,9 @@ public class Temporada {
     @Column(name = "tmp_id")
     private Long id;
 
+    @Column(name = "tmp_num")
+    private Integer numero;
+
     @Column(name = "tmp_titulo", length = 100)
     private String titulo;
 
@@ -38,6 +41,6 @@ public class Temporada {
     private StatusTemporada status;
 
     @OneToMany
-    @JoinTable(joinColumns = @JoinColumn(name = "eps_id"), inverseJoinColumns = @JoinColumn(name = "tmp_id"))
+    @JoinTable(joinColumns = @JoinColumn(name = "tmp_id"), inverseJoinColumns = @JoinColumn(name = "eps_id"))
     private List<Episodio> epsodios;
 }
