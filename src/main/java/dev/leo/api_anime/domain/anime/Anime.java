@@ -36,7 +36,7 @@ public class Anime {
     @Column(name = "ani_titulo", length = 150)
     private String titulo;
     
-    @Column(name = "ani_descricao", length = 300)
+    @Column(name = "ani_descricao", length = 1000)
     private String descricao;
 
     @Column(name = "ani_dt_estreia")

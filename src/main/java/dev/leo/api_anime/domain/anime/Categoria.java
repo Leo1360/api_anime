@@ -23,7 +23,7 @@ public class Categoria {
     @Column(name = "cat_nome", length = 50)
     private String nome;
 
-    @Column(name = "cat_descricao", length = 200)
+    @Column(name = "cat_descricao", length = 1000)
     private String descricao;
 
 }

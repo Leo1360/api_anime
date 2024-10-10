@@ -28,7 +28,7 @@ public class Temporada {
     @Column(name = "tmp_titulo", length = 100)
     private String titulo;
 
-    @Column(name = "tmp_descricao", length = 200)
+    @Column(name = "tmp_descricao", length = 1000)
     private String descricao;
 
     @Column(name = "tmp_estreia")
