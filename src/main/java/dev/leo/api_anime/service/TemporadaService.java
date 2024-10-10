@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import dev.leo.api_anime.domain.anime.Anime;
 import dev.leo.api_anime.domain.anime.Temporada;
@@ -15,6 +16,8 @@ import dev.leo.api_anime.dto.temporada.TemporadaDto;
 import dev.leo.api_anime.dto.temporada.TemporadaResponseDto;
 import dev.leo.api_anime.exceptions.BadRequestException;
 import dev.leo.api_anime.repository.TemporadaRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -23,8 +26,18 @@ public class TemporadaService {
     private final TemporadaRepository temporadaRepository;
     private final AnimeService animeService;
 
-    public Temporada save(TemporadaDto dto){
+    @PersistenceContext
+    private EntityManager entityManager;
+
+    @Transactional
+    public Temporada save(TemporadaDto dto,Long id){
         Temporada temporada = dto.toTemporada();
+        
+        Anime anime = entityManager.getReference(Anime.class,id);
+        anime.getTemporadas().add(temporada);
+        entityManager.persist(anime);
+
+
         return temporadaRepository.save(temporada);
     }
 
