@@ -57,7 +57,7 @@ public class AnimeServiceTest {
     @Test
     public void AnimeService_filterByCategoria_returnsPageDTOAnimeDto(){
         Page<Anime> page = Mockito.mock(Page.class);
-        when(animeRepository.findByCategoriaNome(Mockito.any(String.class), Mockito.any(Pageable.class))).thenReturn(page);
+        when(animeRepository.findByCategoriaNomeContaining(Mockito.any(String.class), Mockito.any(Pageable.class))).thenReturn(page);
         
         PageDTO<AnimeResponseDto> pageDTO = animeService.filterByCategory(0, 10, "Isekai");
         

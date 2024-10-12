@@ -54,7 +54,7 @@ public class AnimeService {
 
     public PageDTO<AnimeResponseDto> filterByCategory(int pageNum, int pageSize, String categoria){
         Pageable pageable = PageRequest.of(pageNum, pageSize);
-        Page<Anime> animePage = animeRepo.findByCategoriaNome(categoria,pageable);
+        Page<Anime> animePage = animeRepo.findByCategoriaNomeContaining(categoria,pageable);
         List<AnimeResponseDto> animeList = animePage.getContent().stream().map(AnimeResponseDto::toDto).collect(Collectors.toList());
         
         return new PageDTO<AnimeResponseDto>(
