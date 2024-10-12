@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>dev.leo</groupId>
 	<artifactId>api_anime</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>v1.0</version>
 	<name>api_anime</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>

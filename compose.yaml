@@ -1,0 +1,35 @@
+networks:
+  aninet: {}
+
+services:
+  db:
+    image: mysql
+    networks:
+      - aninet
+    container_name: db_anime_api
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: animedb
+      MYSQL_USER: backendUser
+      MYSQL_PASSWORD: epkSfGrbEUBd
+    ports:
+      - "3306:3306"
+    volumes:
+      - anime_api_volume:/var/lib/mysql
+  backend:
+    networks:
+      - aninet
+    environment:
+      - "DB_HOST=db"
+    build:
+      dockerfile: dockerfile
+    container_name: anime_api_app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    restart: always
+
+volumes:
+  anime_api_volume:
