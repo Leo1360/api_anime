@@ -1,5 +1,7 @@
 package dev.leo.api_anime.controllers.api;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,10 +15,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import dev.leo.api_anime.domain.anime.Anime;
+import dev.leo.api_anime.domain.anime.Temporada;
 import dev.leo.api_anime.dto.PageDTO;
 import dev.leo.api_anime.dto.ResponseWithIdDTO;
 import dev.leo.api_anime.dto.anime.AnimeDto;
 import dev.leo.api_anime.dto.anime.AnimeResponseDto;
+import dev.leo.api_anime.dto.temporada.TemporadaDto;
+import dev.leo.api_anime.dto.temporada.TemporadaResponseDto;
 import dev.leo.api_anime.service.AnimeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -71,6 +76,18 @@ public class AnimeController {
     public ResponseEntity<Void> deleteAnime(@PathVariable Long id){
         animeService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/temporadas/{id}")
+    public ResponseEntity<List<TemporadaResponseDto>> listTemporadasAnime(@PathVariable Long id){
+        List<TemporadaResponseDto> result = animeService.listTemporadasAnime(id);
+        return new ResponseEntity<List<TemporadaResponseDto>>(result, HttpStatus.OK);
+    }
+
+    @PostMapping(path = "/{id}/temporadas/")
+    public ResponseEntity<ResponseWithIdDTO> save(@RequestBody TemporadaDto dto,@PathVariable Long id){
+        Temporada temp = animeService.addTemporada(dto,id);
+        return new ResponseEntity<ResponseWithIdDTO>(new ResponseWithIdDTO(temp.getId()),HttpStatus.CREATED);
     }
 
 
