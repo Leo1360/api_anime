@@ -7,37 +7,23 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import dev.leo.api_anime.domain.anime.Episodio;
-import dev.leo.api_anime.domain.anime.Temporada;
 import dev.leo.api_anime.dto.PageDTO;
 import dev.leo.api_anime.dto.episodio.EpisodioDto;
 import dev.leo.api_anime.dto.episodio.EpisodioResponseDto;
 import dev.leo.api_anime.exceptions.BadRequestException;
 import dev.leo.api_anime.repository.EpisodioRepository;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class EpisodioService {
     private final EpisodioRepository episodioRepository;
-    private final TemporadaService temporadaService;
-    @PersistenceContext
-    private EntityManager entityManager;
 
-    @Transactional
     public Episodio save(EpisodioDto dto, Long id){
         Episodio episodio = dto.toEpisodio();
-        episodio = episodioRepository.save(episodio);
-        
-        Temporada temp = entityManager.getReference(Temporada.class, id);
-        temp.getEpsodios().add(episodio);
-        entityManager.persist(temp);
-
-        return episodio;
+        return episodioRepository.save(episodio);
     }
 
     public Episodio findById(Long id){
@@ -74,11 +60,6 @@ public class EpisodioService {
             throw new BadRequestException("Epsodio não localizado");
         }
         episodioRepository.deleteById(id);
-    }
-
-    public List<EpisodioResponseDto> listEpisodioByTemporada(Long id) {
-        Temporada temp = temporadaService.findById(id);
-        return temp.getEpsodios().stream().map(EpisodioResponseDto::toDto).collect(Collectors.toList());
     }
 
 }
