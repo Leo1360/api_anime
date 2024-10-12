@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import dev.leo.api_anime.domain.anime.Anime;
+import dev.leo.api_anime.domain.anime.Categoria;
 import dev.leo.api_anime.domain.anime.Temporada;
 import dev.leo.api_anime.dto.PageDTO;
 import dev.leo.api_anime.dto.anime.AnimeDto;
@@ -24,6 +25,7 @@ import lombok.RequiredArgsConstructor;
 public class AnimeService {
     private final AnimeRepository animeRepo;
     private final TemporadaService temporadaService;
+    private final CategoriaService categoriaService;
 
     public Anime findById(Long id){
         return animeRepo.findById(id).orElseThrow(() -> new BadRequestException("Anime não localizado"));
@@ -96,6 +98,15 @@ public class AnimeService {
         anime.getTemporadas().add(temp);
         animeRepo.save(anime);
         return temp;
+    }
+
+    public void atribuirCategoria(Long animeId, Long catId) {
+        Anime anime = animeRepo.getReferenceById(animeId);
+        Categoria cat = categoriaService.findById(catId);
+
+        anime.getCategoria().add(cat);
+
+        animeRepo.save(anime);
     }
 
 }
