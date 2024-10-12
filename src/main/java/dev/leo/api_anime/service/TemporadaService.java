@@ -7,39 +7,27 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import dev.leo.api_anime.domain.anime.Anime;
+import dev.leo.api_anime.domain.anime.Episodio;
 import dev.leo.api_anime.domain.anime.Temporada;
 import dev.leo.api_anime.dto.PageDTO;
+import dev.leo.api_anime.dto.episodio.EpisodioDto;
+import dev.leo.api_anime.dto.episodio.EpisodioResponseDto;
 import dev.leo.api_anime.dto.temporada.TemporadaDto;
 import dev.leo.api_anime.dto.temporada.TemporadaResponseDto;
 import dev.leo.api_anime.exceptions.BadRequestException;
 import dev.leo.api_anime.repository.TemporadaRepository;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class TemporadaService {
     private final TemporadaRepository temporadaRepository;
-    private final AnimeService animeService;
+    private final EpisodioService episodioService;
 
-    @PersistenceContext
-    private EntityManager entityManager;
-
-    @Transactional
-    public Temporada save(TemporadaDto dto,Long id){
+    public Temporada save(TemporadaDto dto){
         Temporada temporada = dto.toTemporada();
-        temporada = temporadaRepository.save(temporada);
-        
-        Anime anime = entityManager.getReference(Anime.class,id);
-        anime.getTemporadas().add(temporada);
-        entityManager.persist(anime);
-
-
-        return temporada;
+        return temporadaRepository.save(temporada);
     }
 
     public Temporada findById(Long id){
@@ -78,9 +66,20 @@ public class TemporadaService {
         temporadaRepository.deleteById(id);
     }
 
-    public List<TemporadaResponseDto> findTemporadasByAnimeId(Long id){
-        Anime anime = animeService.findById(id);
-        return anime.getTemporadas().stream().map(TemporadaResponseDto::toDto).collect(Collectors.toList());
+    public Episodio addEpisodio(EpisodioDto dto, Long id) {
+        Episodio ep = dto.toEpisodio();
+        ep = episodioService.save(dto, id);
+        
+        Temporada temp = temporadaRepository.getReferenceById(id);
+        temp.getEpsodios().add(ep);
+        temporadaRepository.save(temp);
+
+        return ep;
+    }
+
+    public List<EpisodioResponseDto> getEpisodios(Long id) {
+        Temporada temp = findById(id);
+        return temp.getEpsodios().stream().map(EpisodioResponseDto::toDto).collect(Collectors.toList());
     }
 
 }

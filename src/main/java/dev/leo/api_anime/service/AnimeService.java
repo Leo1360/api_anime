@@ -9,9 +9,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import dev.leo.api_anime.domain.anime.Anime;
+import dev.leo.api_anime.domain.anime.Temporada;
 import dev.leo.api_anime.dto.PageDTO;
 import dev.leo.api_anime.dto.anime.AnimeDto;
 import dev.leo.api_anime.dto.anime.AnimeResponseDto;
+import dev.leo.api_anime.dto.temporada.TemporadaDto;
+import dev.leo.api_anime.dto.temporada.TemporadaResponseDto;
 import dev.leo.api_anime.exceptions.BadRequestException;
 import dev.leo.api_anime.repository.AnimeRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +23,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AnimeService {
     private final AnimeRepository animeRepo;
+    private final TemporadaService temporadaService;
 
     public Anime findById(Long id){
         return animeRepo.findById(id).orElseThrow(() -> new BadRequestException("Anime não localizado"));
@@ -76,6 +80,22 @@ public class AnimeService {
             throw new BadRequestException("Anime não localizado");
         }
         animeRepo.deleteById(id);
+    }
+
+    public List<TemporadaResponseDto> listTemporadasAnime(Long id) {
+        Anime anime = findById(id);
+        return anime.getTemporadas().stream().map(TemporadaResponseDto::toDto).collect(Collectors.toList());
+    }
+
+    public Temporada addTemporada(TemporadaDto dto, Long id) {
+        Anime anime = animeRepo.getReferenceById(id);
+
+        Temporada temp = dto.toTemporada();
+        temp = temporadaService.save(dto);
+
+        anime.getTemporadas().add(temp);
+        animeRepo.save(anime);
+        return temp;
     }
 
 }
