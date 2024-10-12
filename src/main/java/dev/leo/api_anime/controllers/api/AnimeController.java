@@ -34,11 +34,17 @@ public class AnimeController {
     private final AnimeService animeService;
     
     @GetMapping(path = "/")
-    public ResponseEntity<PageDTO<AnimeResponseDto>> findAll(
+    public ResponseEntity<PageDTO<AnimeResponseDto>> search(
+            @RequestParam(name = "cat", defaultValue = "", required = false) String cat,
             @RequestParam(name = "pageNum", defaultValue = "0", required = false) int pageNum,
             @RequestParam(name = "pageSize", defaultValue = "10", required = false) int pageSize
             ){
-        return new ResponseEntity<>(animeService.findAll(pageNum, pageSize),HttpStatus.OK);
+        if(cat.isBlank()){
+            return new ResponseEntity<>(animeService.findAll(pageNum, pageSize),HttpStatus.OK);
+        }else{
+            return findAnimesByCategoria(cat, pageNum, pageSize);
+        }
+            
     }
 
 
@@ -49,16 +55,7 @@ public class AnimeController {
         return new ResponseEntity<AnimeResponseDto>(result,HttpStatus.ACCEPTED);
     }
 
-    @GetMapping(path = "/categoria/{cat}")
-    public ResponseEntity<PageDTO<AnimeResponseDto>> findAnimesByCategoria(
-            @PathVariable String cat,
-            @RequestParam(name = "pageNum", defaultValue = "0", required = false) int pageNum,
-            @RequestParam(name = "pageSize", defaultValue = "10", required = false) int pageSize
-            ){
-                PageDTO<AnimeResponseDto> response = animeService.filterByCategory(pageNum, pageSize, cat);
-        return new ResponseEntity<PageDTO<AnimeResponseDto>>(response,HttpStatus.OK);
-    }
-
+    
     @PostMapping(path = "/")
     public ResponseEntity<ResponseWithIdDTO> saveAnime(@RequestBody AnimeDto animeDto){
         Anime anime = animeService.save(animeDto);
@@ -66,12 +63,19 @@ public class AnimeController {
         return new ResponseEntity<ResponseWithIdDTO>(response,HttpStatus.CREATED);
     }
 
+    @PostMapping(path = "/{animeId}/categoria")
+    public ResponseEntity<Void> atribuirCategoria(@RequestBody Long catId, @PathVariable Long animeId){
+        animeService.atribuirCategoria(animeId, catId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+    
+
     @PutMapping(path = "/{id}")
     public ResponseEntity<Void> updateAnime(@RequestBody AnimeDto dto,@PathVariable Long id){
         animeService.update(dto, id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
+    
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<Void> deleteAnime(@PathVariable Long id){
         animeService.delete(id);
@@ -83,13 +87,17 @@ public class AnimeController {
         List<TemporadaResponseDto> result = animeService.listTemporadasAnime(id);
         return new ResponseEntity<List<TemporadaResponseDto>>(result, HttpStatus.OK);
     }
-
+    
     @PostMapping(path = "/{id}/temporadas/")
     public ResponseEntity<ResponseWithIdDTO> save(@RequestBody TemporadaDto dto,@PathVariable Long id){
         Temporada temp = animeService.addTemporada(dto,id);
         return new ResponseEntity<ResponseWithIdDTO>(new ResponseWithIdDTO(temp.getId()),HttpStatus.CREATED);
     }
-
-
-
+    
+    
+    private ResponseEntity<PageDTO<AnimeResponseDto>> findAnimesByCategoria(String cat, int pageNum, int pageSize){
+        PageDTO<AnimeResponseDto> response = animeService.filterByCategory(pageNum, pageSize, cat);
+        return new ResponseEntity<PageDTO<AnimeResponseDto>>(response,HttpStatus.OK);
+    }
+    
 }

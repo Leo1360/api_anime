@@ -72,7 +72,7 @@ public class AnimeRepositoryTest {
         Anime newAnime = animeRepository.save(anime);
         
         Pageable pageable = PageRequest.of(0, 10);
-        Page<Anime> page = animeRepository.findByCategoriaNome("Isekai", pageable);
+        Page<Anime> page = animeRepository.findByCategoriaNomeContaining("Isekai", pageable);
 
         Assertions.assertThat(page).isNotNull();
 

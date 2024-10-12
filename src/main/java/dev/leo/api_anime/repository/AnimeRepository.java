@@ -12,5 +12,5 @@ import dev.leo.api_anime.domain.anime.Anime;
 @Repository
 public interface AnimeRepository extends JpaRepository<Anime, Long>{
     Optional<Anime> findAnimeByTitulo(String titulo);
-    Page<Anime> findByCategoriaNome(String categoria, Pageable pageable);
+    Page<Anime> findByCategoriaNomeContaining(String categoria, Pageable pageable);
 }
