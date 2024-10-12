@@ -24,12 +24,12 @@ import lombok.RequiredArgsConstructor;
 
 
 @RestController
-@RequestMapping(path = "/api/episodios")
+@RequestMapping(path = "/api/v1/episodios")
 @RequiredArgsConstructor
 public class EpisodioController {
     private final EpisodioService service;
 
-    @GetMapping("/episodio/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<EpisodioResponseDto> findById(@PathVariable Long id) {
         EpisodioResponseDto result = EpisodioResponseDto.toDto(service.findById(id));
         return new ResponseEntity<EpisodioResponseDto>(result,HttpStatus.OK);
@@ -43,7 +43,7 @@ public class EpisodioController {
         PageDTO<EpisodioResponseDto> result = service.findAll(pageNum, pageSize);
         return new ResponseEntity<PageDTO<EpisodioResponseDto>>(result, HttpStatus.OK);
     }
-    
+    //TODO - Mover esse metodos para controller de temporada
     @GetMapping(path = "/temporada/{id}")
     public ResponseEntity<List<EpisodioResponseDto>> listByTemporada(@PathVariable Long id){
         List<EpisodioResponseDto> result = service.listEpisodioByTemporada(id);
@@ -51,20 +51,21 @@ public class EpisodioController {
 
     }
     
-    @PostMapping(path = "/episodio/temporada/{id}")
+    @PostMapping(path = "/temporada/{id}")
     public ResponseEntity<ResponseWithIdDTO> save(@RequestBody EpisodioDto dto, @PathVariable Long id){
         Episodio ep = service.save(dto,id);
         ResponseWithIdDTO result = new ResponseWithIdDTO(ep.getId());
         return new ResponseEntity<ResponseWithIdDTO>(result,HttpStatus.CREATED);
     }
+    //--------------------------------------------------------------------------
 
-    @PutMapping(path = "/episodio/{id}")
+    @PutMapping(path = "/{id}")
     public ResponseEntity<Void> update(@RequestBody EpisodioDto dto, @PathVariable Long id){
         service.update(dto, id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
     
-    @DeleteMapping(path = "/episodio/{id}")
+    @DeleteMapping(path = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id){
         service.deleteById(id);
         return new ResponseEntity<>(HttpStatus.OK);

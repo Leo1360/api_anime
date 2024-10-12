@@ -23,7 +23,7 @@ import dev.leo.api_anime.service.TemporadaService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping(path = "/api/temporadas")
+@RequestMapping(path = "/api/v1/temporadas")
 @RequiredArgsConstructor
 public class TemporadaController {
     private final TemporadaService service;
@@ -37,12 +37,14 @@ public class TemporadaController {
         return new ResponseEntity<PageDTO<TemporadaResponseDto>>(page, HttpStatus.OK);
     }
 
-    @GetMapping(path = "/temporada/{id}")
+    @GetMapping(path = "/{id}")
     public ResponseEntity<TemporadaResponseDto> findById(@PathVariable Long id){
         Temporada temp = service.findById(id);
         TemporadaResponseDto result = TemporadaResponseDto.toDto(temp);
         return new ResponseEntity<TemporadaResponseDto>(result, HttpStatus.OK);
     }
+
+    //TODO - Mover metodos para controller de Anime
 
     @GetMapping(path = "/anime/{id}")
     public ResponseEntity<List<TemporadaResponseDto>> listByAnime(@PathVariable Long id){
@@ -50,19 +52,20 @@ public class TemporadaController {
         return new ResponseEntity<List<TemporadaResponseDto>>(result, HttpStatus.OK);
     }
 
-    @PostMapping(path = "/temporada/anime/{id}")
+    @PostMapping(path = "/anime/{id}")
     public ResponseEntity<ResponseWithIdDTO> save(@RequestBody TemporadaDto dto,@PathVariable Long id){
         Temporada temp = service.save(dto,id);
         return new ResponseEntity<ResponseWithIdDTO>(new ResponseWithIdDTO(temp.getId()),HttpStatus.CREATED);
     }
+    //-------------------------------------------------------------------------
 
-    @PutMapping(path = "/temporada/{id}")
+    @PutMapping(path = "/{id}")
     public ResponseEntity<Void> update(@RequestBody TemporadaDto dto, @PathVariable Long id){
         service.update(dto, id);
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
-    @DeleteMapping(path = "/temporada/{id}")
+    @DeleteMapping(path = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id){
         service.delete(id);
         return new ResponseEntity<Void>(HttpStatus.OK);

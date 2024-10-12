@@ -22,7 +22,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
 @RestController
-@RequestMapping(path = "/api/animes")
+@RequestMapping(path = "/api/v1/animes")
 @Log4j2
 @RequiredArgsConstructor
 public class AnimeController {
@@ -37,7 +37,7 @@ public class AnimeController {
     }
 
 
-    @GetMapping(path = "/anime/{id}")
+    @GetMapping(path = "/{id}")
     public ResponseEntity<AnimeResponseDto> getAnimeById(@PathVariable Long id){
         Anime anime = animeService.findById(id);
         AnimeResponseDto result = AnimeResponseDto.toDto(anime);
@@ -54,20 +54,20 @@ public class AnimeController {
         return new ResponseEntity<PageDTO<AnimeResponseDto>>(response,HttpStatus.OK);
     }
 
-    @PostMapping(path = "/anime")
+    @PostMapping(path = "/")
     public ResponseEntity<ResponseWithIdDTO> saveAnime(@RequestBody AnimeDto animeDto){
         Anime anime = animeService.save(animeDto);
         ResponseWithIdDTO response = new ResponseWithIdDTO(anime.getId());
         return new ResponseEntity<ResponseWithIdDTO>(response,HttpStatus.CREATED);
     }
 
-    @PutMapping(path = "/anime/{id}")
+    @PutMapping(path = "/{id}")
     public ResponseEntity<Void> updateAnime(@RequestBody AnimeDto dto,@PathVariable Long id){
         animeService.update(dto, id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @DeleteMapping(path = "/anime/{id}")
+    @DeleteMapping(path = "/{id}")
     public ResponseEntity<Void> deleteAnime(@PathVariable Long id){
         animeService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);

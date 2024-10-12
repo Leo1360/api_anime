@@ -20,7 +20,7 @@ import dev.leo.api_anime.service.CategoriaService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping(path = "/api/categorias")
+@RequestMapping(path = "/api/v1/categorias")
 @RequiredArgsConstructor
 public class CategoriaController {
     private final CategoriaService service;
@@ -34,25 +34,25 @@ public class CategoriaController {
         return new ResponseEntity<PageDTO<CategoriaResponseDTO>>(page,HttpStatus.OK);
     }
 
-    @GetMapping(path = "/categoria/{id}")
+    @GetMapping(path = "/{id}")
     public ResponseEntity<CategoriaResponseDTO> findById(@PathVariable Long id){
         CategoriaResponseDTO cat = CategoriaResponseDTO.toDto(service.findById(id));
         return new ResponseEntity<CategoriaResponseDTO>(cat, HttpStatus.OK);
     }
 
-    @PostMapping(path = "/categoria")
+    @PostMapping(path = "/")
     public ResponseEntity<ResponseWithIdDTO> save(@RequestBody CategoriaDTO dto){
         ResponseWithIdDTO response = new ResponseWithIdDTO(service.save(dto).getId());
         return new ResponseEntity<ResponseWithIdDTO>(response, HttpStatus.CREATED);
     }
 
-    @PutMapping(path = "/categoria/{id}")
+    @PutMapping(path = "/{id}")
     public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody CategoriaDTO dto){
         service.updateCategoria(dto, id);
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
-    @DeleteMapping(path = "/categoria/{id}")
+    @DeleteMapping(path = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id){
         service.delete(id);
         return new ResponseEntity<Void>(HttpStatus.OK);
